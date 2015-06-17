@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1434518967 source:c:\users\joshua\documents\github\warsimulation\filecreator\main.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+
