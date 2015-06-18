@@ -36,5 +36,9 @@ namespace War
         {
 
         }
+        public void processInstructions()
+        {
+
+        }
     }
 }

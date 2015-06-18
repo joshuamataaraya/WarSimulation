@@ -11,7 +11,7 @@ namespace War
         private string _Strategy;
         public FileReader()
         {
-            _Strategy = System.IO.File.ReadAllText(@"C:\Users\Joshua\Documents\GitHub\WarSimulation\estrategia.txt");
+            _Strategy = System.IO.File.ReadAllText(@"C:\Users\Joshua\Documents\GitHub\WarSimulation\strategy1.txt");
         }
         public String Strategy{
             get
@@ -19,7 +19,7 @@ namespace War
                 return _Strategy;
             }
         }
-        public ArrayList analize()
+        public ArrayList getInstructions()
         {
             ArrayList Instructions = new ArrayList();
             int indication=0;
@@ -63,21 +63,33 @@ namespace War
                 }
                 else if (indication == 3)
                 {
-                    if (character != '|')
+                    if (character != '\n')
                     {
                         valueTemp += character;
                     }
                     else
                     {
                         Instruction instruction = new Instruction();
-                        //convert data types and insert a new instruction
-                        Instructions.Add(instruction);
+
+                        gradeTemp = gradeTemp.Replace(".", ",");
+                        valueTemp = valueTemp.Replace(".", ",");
+
+                        instruction.Grade = float.Parse(gradeTemp);
+                        instruction.Id = Convert.ToInt32(idTemp);
+                        instruction.Action = actionTemp;
+                        instruction.Value = float.Parse(valueTemp);
+
+                        gradeTemp = "";
+                        idTemp = "";
+                        actionTemp = "";
+                        valueTemp = "";
                         indication = 0;
+
+                        Instructions.Add(instruction);
                     }
                 }
             }
             
-
             return Instructions;
             //this process the string of strategy
             //this combines same actions

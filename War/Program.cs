@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Collections;
 namespace War
 {
     static class Program
@@ -18,10 +18,11 @@ namespace War
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new Form1());
             //FileReader f = new FileReader();
-
-            string casa = "cas";
-            casa += 'a';
-            Console.WriteLine(casa);
+            //ArrayList ins = f.getInstructions();
+            //string casa = "cas";
+            //casa += 'a';
+            //Console.WriteLine(casa);
+            Console.WriteLine(Environment.ProcessorCount);
         }
     }
 }
