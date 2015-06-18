@@ -11,7 +11,7 @@ namespace War
     {
         private Point _Position;
         private List<Instruction> _Instructions;
-        private int instructionCounter;
+        private int _InstructionCounter;
         private int _Id;
         private static Random rdn=new Random();
         public Vessel()
@@ -19,7 +19,7 @@ namespace War
             _Position = new Point();
             _Instructions = new List<Instruction>();
             _Id = rdn.Next(100, 999);
-            instructionCounter = 0;
+            _InstructionCounter = 0;
         }
         public int Id
         {
@@ -54,10 +54,10 @@ namespace War
             {
                 //if there are not instructions it returns null
                 Instruction instruction=null;
-                if (instructionCounter < _Instructions.Count)
+                if (_InstructionCounter < _Instructions.Count)
                 {
-                    instruction = _Instructions[instructionCounter];
-                    instructionCounter++;
+                    instruction = _Instructions[_InstructionCounter];
+                    _InstructionCounter++;
                 }
                 return instruction;
             }
@@ -65,6 +65,40 @@ namespace War
             {
                 Console.WriteLine(e.ToString());
                 return null;
+            }
+            
+        }
+        public void mixInstructions()
+        {
+            try{
+                int instructionACounter = 0;
+                int instructionBCounter = 1;
+                float gradeA=0;
+                float gradeB=0;
+                float valueA=0;
+                float valueB=0;
+                for (; instructionACounter < _Instructions.Count; )
+                {
+                    if (_Instructions[instructionACounter].Action == _Instructions[instructionBCounter].Action)
+                    {
+                        gradeA=_Instructions[instructionACounter].Grade;
+                        gradeB=_Instructions[instructionBCounter].Grade;
+                        valueA=_Instructions[instructionACounter].Value;
+                        valueB=_Instructions[instructionBCounter].Value;
+
+                        _Instructions[instructionACounter].Grade=(gradeA+gradeB)%gradeA;
+                        _Instructions[instructionACounter].Value = (valueA + valueB) / 2;
+
+                        _Instructions.RemoveAt(instructionBCounter);
+                    }
+                    else
+                    {
+                        instructionACounter++;
+                        instructionBCounter++;
+                    }
+                }
+            }catch(Exception e){
+                Console.WriteLine(e.ToString());
             }
             
         }

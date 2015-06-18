@@ -16,7 +16,7 @@ namespace War
             _ProcessorsNumber = Environment.ProcessorCount;
             _Vessels = new List<Vessel>();
             createVessels();
-            setVesselsInstructions(instructions);
+            setAndMixVesselsInstructions(instructions);
         }
         private void createVessels()
         {
@@ -27,7 +27,7 @@ namespace War
                 _Vessels.Add(vessel);
             }
         }
-        private void setVesselsInstructions(List<Instruction> instructions)
+        private void setAndMixVesselsInstructions(List<Instruction> instructions)
         {
             try
             {
@@ -40,6 +40,7 @@ namespace War
                             currentVessel.addInstruction(instruction);
                         }
                     }
+                    currentVessel.mixInstructions();
                 }
                 );
             }
