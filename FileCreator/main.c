@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <math.h>
 
 int main()
@@ -9,10 +10,9 @@ int main()
     int id;
     char *accion[2]={"avanzar","disparar"};
     float valor;
-    while(i>=0)
+    srand(time(NULL));
+    while(i>0)
     {
-        srand(rand());
-
         grado=((float)rand()/(float)RAND_MAX);
         id=rand();
         id= id % 1000;
