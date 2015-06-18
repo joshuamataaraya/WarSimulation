@@ -19,9 +19,9 @@ namespace War
                 return _Strategy;
             }
         }
-        public ArrayList getInstructions()
+        public List<Instruction> getInstructions()
         {
-            ArrayList Instructions = new ArrayList();
+            List<Instruction> Instructions = new List<Instruction>();
             int indication=0;
             /*
              * if 

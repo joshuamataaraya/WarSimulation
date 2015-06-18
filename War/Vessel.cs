@@ -10,7 +10,7 @@ namespace War
     class Vessel
     {
         private Point _Position;
-        public ArrayList _Instructions;
+        private ArrayList _Instructions;
         public Vessel()
         {
             _Position = new Point();
@@ -20,13 +20,13 @@ namespace War
         {
             return _Position;
         }
-
+        public void addInstruction(Instruction pInstruction)
+        {
+            _Instructions.Add(pInstruction);
+        }
         public void setPosition(int pX, int pY)
         {
 
-        }
-        public void setIntructions(ArrayList pInstructions){
-            _Instructions=pInstructions;
         }
         private void shoot(int pValor, int pGrado)
         {

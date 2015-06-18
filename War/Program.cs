@@ -17,8 +17,12 @@ namespace War
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new Form1());
-            //FileReader f = new FileReader();
-            //ArrayList ins = f.getInstructions();
+            FileReader f = new FileReader();
+            List<Instruction> ins = f.getInstructions();
+
+            VesselSetter setUp = new VesselSetter(ins);
+            List<Vessel> vessels = setUp.vessels;
+
             //string casa = "cas";
             //casa += 'a';
             //Console.WriteLine(casa);
