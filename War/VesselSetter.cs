@@ -29,16 +29,12 @@ namespace War
         }
         private void setVesselsInstructions(List<Instruction> instructions)
         {
-            //cambiando el paralelismo a instrucciones por lista 
+
             Parallel.ForEach(_Vessels, currentVessel =>
             {
-                Random rdn = new Random((int)DateTime.Now.Ticks);
-                int idNumber = rdn.Next(100, 999);
-
-                Console.WriteLine(idNumber);
                 foreach (Instruction instruction in instructions)
                 {
-                    if (instruction.Id == idNumber || instruction.Id % 10 == idNumber % 10)
+                    if (instruction.Id == currentVessel.Id || instruction.Id % 10 == currentVessel.Id % 10)
                     {
                         currentVessel.addInstruction(instruction);
                     }

@@ -10,11 +10,23 @@ namespace War
     class Vessel
     {
         private Point _Position;
-        private ArrayList _Instructions;
+        private List<Instruction> _Instructions;
+        private int instructionCounter;
+        private int _Id;
+        private static Random rdn=new Random();
         public Vessel()
         {
             _Position = new Point();
-            _Instructions = new ArrayList();
+            _Instructions = new List<Instruction>();
+            _Id = rdn.Next(100, 999);
+            instructionCounter = 0;
+        }
+        public int Id
+        {
+            get
+            {
+                return _Id;
+            }
         }
         public Point getPostition()
         {
@@ -36,9 +48,25 @@ namespace War
         {
 
         }
-        public void processInstructions()
+        public Instruction getNextInstruction()
         {
-
+            try
+            {
+                //if there are not instructions it returns null
+                Instruction instruction=null;
+                if (instructionCounter < _Instructions.Count)
+                {
+                    instruction = _Instructions[instructionCounter];
+                    instructionCounter++;
+                }
+                return instruction;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return null;
+            }
+            
         }
     }
 }

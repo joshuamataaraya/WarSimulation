@@ -11,7 +11,7 @@ namespace War
         private string _Strategy;
         public FileReader()
         {
-            _Strategy = System.IO.File.ReadAllText(@"C:\Users\Joshua\Documents\GitHub\WarSimulation\strategy1.txt");
+            _Strategy = System.IO.File.ReadAllText(@"..\strategy1.txt");
         }
         public String Strategy{
             get
