@@ -29,18 +29,24 @@ namespace War
         }
         private void setVesselsInstructions(List<Instruction> instructions)
         {
-
-            Parallel.ForEach(_Vessels, currentVessel =>
+            try
             {
-                foreach (Instruction instruction in instructions)
+                Parallel.ForEach(_Vessels, currentVessel =>
                 {
-                    if (instruction.Id == currentVessel.Id || instruction.Id % 10 == currentVessel.Id % 10)
+                    foreach (Instruction instruction in instructions)
                     {
-                        currentVessel.addInstruction(instruction);
+                        if (instruction.Id == currentVessel.Id || instruction.Id % 10 == currentVessel.Id % 10)
+                        {
+                            currentVessel.addInstruction(instruction);
+                        }
                     }
                 }
+                );
             }
-            );
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
         }
         public List<Vessel> vessels
         {
