@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using System.Windows.Forms;
-using System.Collections;
+using System.Collections.Generic;
 namespace War
 {
     static class Program
@@ -21,7 +19,13 @@ namespace War
             List<Instruction> ins = f.getInstructions();
 
             VesselSetter setUp = new VesselSetter(ins);
-            List<Vessel> vessels = setUp.vessels;
+            //List<Vessel> vessels = setUp.vessels;
+            //Process[] notepads = Process.GetProcessesByName("notepad");
+            //if (notepads.Length == 0)
+            //    Process.Start("notepad");
+
+            //Process CurrentProcess = Process.GetCurrentProcess();
+            //Console.WriteLine("ProcessName: {0}", CurrentProcess.ProcessName);
 
             //string casa = "cas";
             //casa += 'a';
