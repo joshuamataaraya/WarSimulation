@@ -10,20 +10,19 @@ using System.Runtime.InteropServices;
 
 namespace War
 {
-    class VesselSetter
+    class SetUp
     {
         [DllImport("kernel32.dll")]
         static extern uint GetCurrentThreadId();
 
         private List<Vessel> _Vessels;
         private int _ProcessorsNumber;
-        public VesselSetter(List<Instruction> instructions)
+        public SetUp(List<Instruction> instructions)
         {
             _ProcessorsNumber = Environment.ProcessorCount;
             _Vessels = new List<Vessel>();
             createVessels();
-            setVesselsInstructions(instructions);
-            //mixInstructions();
+            setAndMixVesselsInstructions(instructions);
         }
         private void createVessels()
         {
@@ -71,23 +70,20 @@ namespace War
                     currentVessel.addInstruction(instruction);
                 }
             }
+            currentVessel.mixInstructions();
         }
-        private void setVesselsInstructions(List<Instruction> instructions)
+        private void setAndMixVesselsInstructions(List<Instruction> instructions)
         {
             try
             {
                 int counter=_Vessels.Count;
                 foreach (Vessel vess in _Vessels)
                 {
-                    Thread thread = new Thread(delegate() { function(instructions, _Vessels[0],counter); });
+                    Thread thread = new Thread(delegate() { function(instructions, vess,counter); });
                     thread.Start();
+                    Thread.Sleep(100);
                     counter--;
-                }
-
-                               
-
-
-                
+                }                            
                 //Parallel.ForEach(_Vessels, currentVessel =>
                 //{
                 //    foreach (Instruction instruction in instructions)
@@ -97,23 +93,9 @@ namespace War
                 //            currentVessel.addInstruction(instruction);
                 //        }
                 //    }
+                //    currentVessel.mixInstructions();
                 //}
                 //);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-        }
-        private void mixInstructions()
-        {
-            try
-            {
-                Parallel.ForEach(_Vessels, currentVessel =>
-                {
-                    currentVessel.mixInstructions();
-                }
-                );
             }
             catch (Exception e)
             {

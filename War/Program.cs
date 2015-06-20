@@ -18,7 +18,7 @@ namespace War
             FileReader f = new FileReader();
             List<Instruction> ins = f.getInstructions();
 
-            VesselSetter setUp = new VesselSetter(ins);
+            SetUp setUp = new SetUp(ins);
             //List<Vessel> vessels = setUp.vessels;
             //Process[] notepads = Process.GetProcessesByName("notepad");
             //if (notepads.Length == 0)
