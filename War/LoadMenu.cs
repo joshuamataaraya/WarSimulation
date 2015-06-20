@@ -16,5 +16,18 @@ namespace War
         {
             InitializeComponent();
         }
+
+        private void _bCreate_Click(object sender, EventArgs e)
+        {
+            GameWindow _Game = new GameWindow();
+            _Game.Show();
+            this.Hide();
+        }
+
+        private void _bLoad_Click(object sender, EventArgs e)
+        {
+            ///Verificar si la clave que esta en _iGameCode es el private key del juego seleccionade en _listGames
+            ///Si no esta la clave correcta lanzar un alerta
+        }
     }
 }

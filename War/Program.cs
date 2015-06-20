@@ -31,6 +31,8 @@ namespace War
             //casa += 'a';
             //Console.WriteLine(casa);
             Console.WriteLine(Environment.ProcessorCount);
+            LoadMenu _Menu = new LoadMenu();
+            Application.Run(_Menu);
         }
     }
 }

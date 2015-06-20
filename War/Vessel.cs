@@ -11,13 +11,15 @@ namespace War
     {
         private Point _Position;
         private List<Instruction> _Instructions;
+        private List<Bullet> _Bullets;
         private int _InstructionCounter;
         private int _Id;
         private static Random rdn=new Random();
         public Vessel()
         {
-            _Position = new Point();
+            _Position = new Point(rdn.Next(0, 650),rdn.Next(0, 650));
             _Instructions = new List<Instruction>();
+            _Bullets = new List<Bullet>();
             _Id = rdn.Next(100, 999);
             _InstructionCounter = 0;
         }
@@ -38,7 +40,7 @@ namespace War
         }
         public void setPosition(int pX, int pY)
         {
-
+            _Position = new Point(pX, pY);
         }
         private void shoot(int pValor, int pGrado)
         {
