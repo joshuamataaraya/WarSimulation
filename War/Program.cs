@@ -15,10 +15,10 @@ namespace War
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new Form1());
-            FileReader f = new FileReader();
-            List<Instruction> ins = f.getInstructions();
+            //FileReader f = new FileReader();
+            //List<Instruction> ins = f.getInstructions();
 
-            SetUp setUp = new SetUp(ins);
+            //SetUp setUp = new SetUp(ins);
             //List<Vessel> vessels = setUp.vessels;
             //Process[] notepads = Process.GetProcessesByName("notepad");
             //if (notepads.Length == 0)
@@ -30,9 +30,17 @@ namespace War
             //string casa = "cas";
             //casa += 'a';
             //Console.WriteLine(casa);
+<<<<<<< HEAD
             Console.WriteLine(Environment.ProcessorCount);
             LoadMenu _Menu = new LoadMenu();
             Application.Run(_Menu);
+=======
+            //Console.WriteLine(Environment.ProcessorCount);
+
+            int clave = RSAEncription.Instance.Encrypt("Primer Juego", 123);
+
+
+>>>>>>> origin/master
         }
     }
 }

@@ -33,7 +33,7 @@ namespace War
                 _Vessels.Add(vessel);
             }
         }
-        private static void function(List<Instruction> instructions, Vessel currentVessel,int index)
+        private void function(List<Instruction> instructions, Vessel currentVessel,int index)
         {
             foreach (ProcessThread proc in Process.GetCurrentProcess().Threads)
             {
