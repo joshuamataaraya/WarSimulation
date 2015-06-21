@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace War
 {
-    class Instruction
+    public class Instruction
     {
         private float _Grade;
         private int _Id;

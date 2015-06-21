@@ -15,8 +15,8 @@ namespace War
         [DllImport("kernel32.dll")]
         static extern uint GetCurrentThreadId();
        
-        public delegate void UpdateViewEventHandler(object source, VesselsEventArgs args);
-        public event UpdateViewEventHandler updateView;
+        
+        public event EventHandler<VesselsEventArgs> updateView;
 
         //Constructors
         public SetUp()
@@ -154,7 +154,7 @@ namespace War
             Thread.Sleep(1000);
             OnBoatAction();
         }
-        private void runGame()
+        public void runGame()
         {
             try
             {
@@ -162,6 +162,9 @@ namespace War
                 foreach (Vessel vess in _Vessels)
                 {
                     Thread thread = new Thread(delegate() { game(vess, counter); });
+                    thread.Start();
+                    Thread.Sleep(1000);
+                    counter--;
                 }
             }
             catch (Exception e)

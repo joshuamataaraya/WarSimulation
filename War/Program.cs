@@ -16,12 +16,7 @@ namespace War
             Application.SetCompatibleTextRenderingDefault(false);
            
             Console.WriteLine(Environment.ProcessorCount);
-            GameWindow _GameWindow = new GameWindow();
-            LoadMenu _Menu = new LoadMenu(_GameWindow);
-            SetUp _Setup = new SetUp();
-
-            _Setup.updateView += _GameWindow.OnViewUpdated;
-
+            LoadMenu _Menu = new LoadMenu();
             Application.Run(_Menu);
             
 

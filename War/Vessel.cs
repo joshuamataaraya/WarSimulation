@@ -7,7 +7,7 @@ using System.Drawing;
 using System.Collections;
 namespace War
 {
-    class Vessel
+    public class Vessel
     {       
         //Constructor
         public Vessel()

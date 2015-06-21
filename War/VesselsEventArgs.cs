@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace War
 {
-    class VesselsEventArgs : EventArgs
+    public class VesselsEventArgs : EventArgs
     {
         public List<Vessel> Vessels { get; set; }
     }

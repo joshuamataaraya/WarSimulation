@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace War
 {
-    class Bullet
+    public class Bullet
     {
         //Constructor
         public Bullet(float pPosX, float pPosY, float pGrade, float pValue)

@@ -12,16 +12,18 @@ namespace War
 {
     public partial class LoadMenu : Form
     {
-        public LoadMenu(GameWindow pGameWindow)
+        public LoadMenu()
         {
             InitializeComponent();
-            _GameWindow = pGameWindow;
+            _GameWindow = new GameWindow();
+            _SetUp.updateView += _GameWindow.OnViewUpdated;
         }
 
         private void _bCreate_Click(object sender, EventArgs e)
         {
-            _GameWindow.Show();
             this.Hide();
+            _GameWindow.Show();
+            _SetUp.runGame();
         }
 
         private void _bLoad_Click(object sender, EventArgs e)
@@ -30,5 +32,6 @@ namespace War
             ///Si no esta la clave correcta lanzar un alerta
         }
         private GameWindow _GameWindow = new GameWindow();
+        private SetUp _SetUp = new SetUp();
     }
 }
