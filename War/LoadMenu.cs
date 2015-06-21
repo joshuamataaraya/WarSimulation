@@ -12,15 +12,15 @@ namespace War
 {
     public partial class LoadMenu : Form
     {
-        public LoadMenu()
+        public LoadMenu(GameWindow pGameWindow)
         {
             InitializeComponent();
+            _GameWindow = pGameWindow;
         }
 
         private void _bCreate_Click(object sender, EventArgs e)
         {
-            GameWindow _Game = new GameWindow();
-            _Game.Show();
+            _GameWindow.Show();
             this.Hide();
         }
 
@@ -29,5 +29,6 @@ namespace War
             ///Verificar si la clave que esta en _iGameCode es el private key del juego seleccionade en _listGames
             ///Si no esta la clave correcta lanzar un alerta
         }
+        private GameWindow _GameWindow = new GameWindow();
     }
 }

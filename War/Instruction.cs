@@ -45,7 +45,6 @@ namespace War
                 _Action = value;
             }
         }
-
         public float Value
         {
             get

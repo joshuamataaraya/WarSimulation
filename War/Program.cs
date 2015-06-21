@@ -14,33 +14,19 @@ namespace War
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
-            //FileReader f = new FileReader();
-            //List<Instruction> ins = f.getInstructions();
-
-            //SetUp setUp = new SetUp(ins);
-            //List<Vessel> vessels = setUp.vessels;
-            //Process[] notepads = Process.GetProcessesByName("notepad");
-            //if (notepads.Length == 0)
-            //    Process.Start("notepad");
-
-            //Process CurrentProcess = Process.GetCurrentProcess();
-            //Console.WriteLine("ProcessName: {0}", CurrentProcess.ProcessName);
-
-            //string casa = "cas";
-            //casa += 'a';
-            //Console.WriteLine(casa);
-<<<<<<< HEAD
+           
             Console.WriteLine(Environment.ProcessorCount);
-            LoadMenu _Menu = new LoadMenu();
+            GameWindow _GameWindow = new GameWindow();
+            LoadMenu _Menu = new LoadMenu(_GameWindow);
+            SetUp _Setup = new SetUp();
+
+            _Setup.updateView += _GameWindow.OnViewUpdated;
+
             Application.Run(_Menu);
-=======
-            //Console.WriteLine(Environment.ProcessorCount);
+            
 
             int clave = RSAEncription.Instance.Encrypt("Primer Juego", 123);
 
-
->>>>>>> origin/master
         }
     }
 }
