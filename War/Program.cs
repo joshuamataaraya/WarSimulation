@@ -30,17 +30,12 @@ namespace War
             //string casa = "cas";
             //casa += 'a';
             //Console.WriteLine(casa);
-<<<<<<< HEAD
-            Console.WriteLine(Environment.ProcessorCount);
-            LoadMenu _Menu = new LoadMenu();
-            Application.Run(_Menu);
-=======
             //Console.WriteLine(Environment.ProcessorCount);
-
-            int clave = RSAEncription.Instance.Encrypt("Primer Juego", 123);
-
-
->>>>>>> origin/master
+            //LoadMenu _Menu = new LoadMenu();
+            //Application.Run(_Menu);
+            //Console.WriteLine(Environment.ProcessorCount);
+            DBActions.Instance.connect();
+            //int clave = RSAEncription.Instance.Encrypt("Primer Juego", 123);
         }
     }
 }

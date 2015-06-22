@@ -44,19 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bullet_2.cs" />
     <Compile Include="DBActions.cs" />
     <Compile Include="DistributedThread.cs" />
     <Compile Include="FileReader.cs" />
-<<<<<<< HEAD
     <Compile Include="GameWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GameWindow.Designer.cs">
       <DependentUpon>GameWindow.cs</DependentUpon>
     </Compile>
-=======
     <Compile Include="Game.cs" />
->>>>>>> origin/master
     <Compile Include="Instruction.cs" />
     <Compile Include="LoadMenu.cs">
       <SubType>Form</SubType>
@@ -113,6 +111,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\barco1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

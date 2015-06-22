@@ -30,6 +30,13 @@ namespace War
                 return _Id;
             }
         }
+        public List<Bullet> Bullets
+        {
+            get
+            {
+                return _Bullets;
+            }
+        }
         public Point getPostition()
         {
             return _Position;
