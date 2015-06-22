@@ -18,10 +18,6 @@ namespace War
             Console.WriteLine(Environment.ProcessorCount);
             LoadMenu _Menu = new LoadMenu();
             Application.Run(_Menu);
-            
-
-            int clave = RSAEncription.Instance.Encrypt("Primer Juego", 123);
-
         }
     }
 }

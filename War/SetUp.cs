@@ -69,7 +69,7 @@ namespace War
                         bit = bit << index;
                     }
                     proc.ProcessorAffinity = (IntPtr)bit;
-                    Console.WriteLine(bit);
+                    //Console.WriteLine(bit);
                     /**
                     if (index == 1)
                     {
@@ -150,9 +150,11 @@ namespace War
                     Console.WriteLine(bit);
                 }
             }
-            currentVessel.storeNextInstruction();
-            Thread.Sleep(1000);
-            OnBoatAction();
+            while(currentVessel.Instructions.Count>index){
+                currentVessel.storeNextInstruction();
+                Thread.Sleep(1000);
+                OnBoatAction();
+            }
         }
         public void runGame()
         {
