@@ -11,6 +11,13 @@ namespace War
         private int _Id;
         private String _Name;
         private String _Date;
+        //to save in DB
+        public Game(String pNombre)
+        {
+            _Name = pNombre;
+        }
+        
+        //to load from BD
         public Game(int pId, String pNombre,String pDate)
         {
             _Id = pId;

@@ -17,13 +17,13 @@ namespace War
             Instructions = new List<Instruction>();
             _Bullets = new List<Bullet>();
             _CurrentInstruction = 0;
+            Life = 3;
 
             _Id = rdn.Next(100, 999);
             Grade = 0;
             Action = "STOP";
             Value = 0;
             Active = false;
-            Life = 3;
         }
         
         //Properties
@@ -72,6 +72,10 @@ namespace War
             get
             {
                 return _Bullets;
+            }
+            set
+            {
+                _Bullets = value;
             }
         }
         public int Life
@@ -140,6 +144,7 @@ namespace War
                 return _CurrentAction;
             }
         }
+<<<<<<< HEAD
         public RectangleF Area
         {
             set
@@ -152,6 +157,19 @@ namespace War
             }
         }
 
+=======
+        public int dbId
+        {
+            get
+            {
+                return _DbId;
+            }
+            set
+            {
+                _DbId = value;
+            }
+        }
+>>>>>>> origin/master
         //Vessel preparation
         public void addInstruction(Instruction pInstruction)
         {
@@ -347,6 +365,10 @@ namespace War
         private float _CurrentValue;
         private String _CurrentAction;
         private static Random rdn = new Random();
+<<<<<<< HEAD
         private RectangleF _Area;
+=======
+        private int _DbId;
+>>>>>>> origin/master
     }
 }
