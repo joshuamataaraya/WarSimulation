@@ -105,7 +105,7 @@ namespace War
                     vessel.PosY =(float) reader[4];
                     vessel.Life = (int)reader["Life"];
                     vessel.Grade = (float)reader["Grade"];
-                    vessel.InstructionCounter = (int)reader["instructionCounter"];
+                    vessel.CurrentInstruction = (int)reader["instructionCounter"];
                     vessels.Add(vessel);
                 }
                 reader.Close();

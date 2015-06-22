@@ -16,13 +16,14 @@ namespace War
             PosY = rdn.Next(0, 610);
             Instructions = new List<Instruction>();
             _Bullets = new List<Bullet>();
+            _CurrentInstruction = 0;
+
             _Id = rdn.Next(100, 999);
             Grade = 90;
             Action = "STOP";
             Value = 0;
             Active = false;
             Life = 3;
-            _CurrentInstruction = 0;
         }
         
         //Properties
@@ -35,17 +36,6 @@ namespace War
             get
             {
                 return _Instructions;
-            }
-        }
-        public int InstructionCounter
-        {
-            get
-            {
-                return _InstructionCounter;
-            }
-            set
-            {
-                _InstructionCounter = value;
             }
         }
         public bool Active
@@ -64,6 +54,17 @@ namespace War
             get
             {
                 return _Id;
+            }
+        }
+        public int CurrentInstruction
+        {
+            set
+            {
+                _CurrentInstruction = value;
+            }
+            get
+            {
+                return _CurrentInstruction;
             }
         }
         public List<Bullet> Bullets
@@ -275,13 +276,13 @@ namespace War
         }
         public void move()
         {
-            //Console.WriteLine("moving from: " + PosX + "x" + PosY);
+            Console.WriteLine("moving from: " + PosX + "x" + PosY);
             float nPosX = PosX + (float)Math.Sin(Grade);
             float nPosY = PosY - (float)Math.Cos(Grade);
             if(nPosX>0 && nPosX<=610 && nPosY>0 && nPosY<=610){
                 PosX = nPosX;
                 PosY = nPosY;
-                //Console.WriteLine("moving to: " + PosX + "x" + PosY);
+                Console.WriteLine("moving to: " + PosX + "x" + PosY);
                 Value -= 0.4f;
             }
             else

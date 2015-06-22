@@ -89,7 +89,7 @@ namespace War
                             image = new Bitmap(global::War.Properties.Resources.barco3);
                             break;
                     }
-                    //Console.WriteLine("Barco: " + currentVessel + " Action: " + vessel.Action + " Grado: " + vessel.Grade + " Valor: " + vessel.Value);
+                    Console.WriteLine("Barco: " + currentVessel + " Action: " + vessel.Action + " Grado: " + vessel.Grade + " Valor: " + vessel.Value);
                     image = RotateImage(image, vessel.Grade);
                     graphics.DrawImage(image, vessel.PosX, vessel.PosY);
                     int currentBullet = 0;

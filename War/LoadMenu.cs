@@ -16,11 +16,8 @@ namespace War
         {
             InitializeComponent();
             _GameWindow = new GameWindow();
-<<<<<<< HEAD
             _SetUp = new SetUp();
-=======
             loadGames();
->>>>>>> origin/master
             _SetUp.updateView += _GameWindow.OnViewUpdated;
         }
 
