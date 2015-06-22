@@ -89,26 +89,16 @@ namespace War
                             image = new Bitmap(global::War.Properties.Resources.barco3);
                             break;
                     }
-                    Console.WriteLine("Barco: " + currentVessel + " Action: " + vessel.Action + " Grado: " + vessel.Grade + " Valor: " + vessel.Value);
+                    //Console.WriteLine("Barco: " + currentVessel + " Action: " + vessel.Action + " Grado: " + vessel.Grade + " Valor: " + vessel.Value);
                     image = RotateImage(image, vessel.Grade);
                     graphics.DrawImage(image, vessel.PosX, vessel.PosY);
                     int currentBullet = 0;
-                    /*while (currentBullet < vessel.Bullets.Count)
+                    while (currentBullet < vessel.Bullets.Count)
                     {
                         Bullet bullet = vessel.Bullets[currentBullet];
-                        float tempX = bullet.PosX;
-                        float tempY = bullet.PosY;
-                        for (int xCounter = 0; xCounter < image.Width / 2; xCounter++)
-                        {
-                            tempX += (float)Math.Cos(vessel.Grade);
-                        }
-                        for (int yCounter = 0; yCounter < image.Height / 2; yCounter++)
-                        {
-                            tempY -= (float)Math.Sin(vessel.Grade);
-                        }
-                        graphics.DrawRectangle(pen, tempX, tempY, 2, 2);
+                        graphics.DrawRectangle(pen, bullet.PosX, bullet.PosY, 2, 2);
                         currentBullet++;
-                    }*/
+                    }
                 }
                 currentVessel++;
             }

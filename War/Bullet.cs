@@ -66,9 +66,17 @@ namespace War
         //Function
         public void move()
         {
-            PosX += (float)Math.Sin(Grade)*4;
-            PosY -= (float)Math.Cos(Grade)*4;
-            Value -= 0.4f;
+            if (Grade >= 0 && Grade < 180)
+            {
+                PosX += ((float)Math.Cos(Grade * Math.PI / 180) * 4);
+                PosY += ((float)Math.Sin(Grade * Math.PI / 180) * 4);
+            }
+            else
+            {
+                PosX -= ((float)Math.Cos(Grade * Math.PI / 180) * 4);
+                PosY -= ((float)Math.Sin(Grade * Math.PI / 180) * 4);
+            }
+            Value -= 0.1f;
         }
 
         private float _PosX;

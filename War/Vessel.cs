@@ -19,7 +19,7 @@ namespace War
             _CurrentInstruction = 0;
 
             _Id = rdn.Next(100, 999);
-            Grade = 90;
+            Grade = 0;
             Action = "STOP";
             Value = 0;
             Active = false;
@@ -241,7 +241,7 @@ namespace War
                     {
                         Active = false;
                         Action = "STOP";
-                        Grade = 90;
+                        Grade = 0;
                         Value = 0;
                     }
                 }
@@ -250,7 +250,7 @@ namespace War
                     Console.WriteLine(e.ToString());
                     Action = "STOP";
                     Active = false;
-                    Grade = 90;
+                    Grade = 0;
                     Value = 0;
                 }
             }         
@@ -269,20 +269,29 @@ namespace War
         //Pendiente
         private void shoot(float pValor, float pGrado)
         {
-            Console.WriteLine("shooting");
             Bullet bullet = new Bullet(pValor, pGrado, this.PosX, this.PosY);
             Bullets.Add(bullet);
             UpdateBullets();
         }
         public void move()
         {
-            Console.WriteLine("moving from: " + PosX + "x" + PosY);
-            float nPosX = PosX + (float)Math.Sin(Grade);
-            float nPosY = PosY - (float)Math.Cos(Grade);
+            float nPosX = 0;
+            float nPosY = 0;
+            //Console.WriteLine("moving from: " + PosX + "x" + PosY);
+            if (Grade >= 0 && Grade < 180)
+            {
+                nPosX = PosX + (float)Math.Cos(Grade * Math.PI / 180);
+                nPosY = PosY + (float)Math.Sin(Grade * Math.PI / 180);
+            }
+            else
+            {
+                nPosX = PosX - (float)Math.Cos(Grade * Math.PI / 180);
+                nPosY = PosY - (float)Math.Sin(Grade * Math.PI / 180);
+            }
             if(nPosX>0 && nPosX<=610 && nPosY>0 && nPosY<=610){
                 PosX = nPosX;
                 PosY = nPosY;
-                Console.WriteLine("moving to: " + PosX + "x" + PosY);
+                //Console.WriteLine("moving to: " + PosX + "x" + PosY);
                 Value -= 0.4f;
             }
             else
