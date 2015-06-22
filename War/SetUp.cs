@@ -14,9 +14,20 @@ namespace War
     {
         [DllImport("kernel32.dll")]
         static extern uint GetCurrentThreadId();
+       
+        
+        public event EventHandler<VesselsEventArgs> updateView;
 
-        private List<Vessel> _Vessels;
-        private int _ProcessorsNumber;
+        //Constructors
+        public SetUp()
+        {
+            FileReader f = new FileReader();
+            List<Instruction> ins = f.getInstructions();
+            _ProcessorsNumber = Environment.ProcessorCount;
+            _Vessels = new List<Vessel>();
+            createVessels();
+            setAndMixVesselsInstructions(ins);
+        }
         public SetUp(List<Instruction> instructions)
         {
             _ProcessorsNumber = Environment.ProcessorCount;
@@ -24,6 +35,17 @@ namespace War
             createVessels();
             setAndMixVesselsInstructions(instructions);
         }
+        
+        //Properties
+        public List<Vessel> vessels
+        {
+            get
+            {
+                return _Vessels;
+            }
+        }
+        
+        //Functions
         private void createVessels()
         {
             int processorCounter= _ProcessorsNumber;
@@ -40,6 +62,15 @@ namespace War
                 int currentThreadId = (int)GetCurrentThreadId();
                 if (currentThreadId == proc.Id)
                 {
+                    index--;
+                    int bit = 1;
+                    if (index > 0)
+                    {
+                        bit = bit << index;
+                    }
+                    proc.ProcessorAffinity = (IntPtr)bit;
+                    Console.WriteLine(bit);
+                    /**
                     if (index == 1)
                     {
                         proc.ProcessorAffinity = (IntPtr)1;
@@ -59,7 +90,7 @@ namespace War
                     {
                         proc.ProcessorAffinity = (IntPtr)8;
                         Console.WriteLine("Here4");
-                    }
+                    }*/
                     
                 }                
             }
@@ -99,14 +130,60 @@ namespace War
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                Console.WriteLine("*SetMix Error: " + e.ToString());
             }
         }
-        public List<Vessel> vessels
+        private void game(Vessel currentVessel, int index)
         {
-            get{
-                return _Vessels;
+            foreach (ProcessThread proc in Process.GetCurrentProcess().Threads)
+            {
+                int currentThreadId = (int)GetCurrentThreadId();
+                if (currentThreadId == proc.Id)
+                {
+                    index--;
+                    int bit = 1;
+                    if (index > 0)
+                    {
+                        bit = bit << index;
+                    }
+                    proc.ProcessorAffinity = (IntPtr)bit;
+                    Console.WriteLine(bit);
+                }
+            }
+            currentVessel.storeNextInstruction();
+            Thread.Sleep(1000);
+            OnBoatAction();
+        }
+        public void runGame()
+        {
+            try
+            {
+                int counter = _Vessels.Count;
+                foreach (Vessel vess in _Vessels)
+                {
+                    Thread thread = new Thread(delegate() { game(vess, counter); });
+                    thread.Start();
+                    Thread.Sleep(1000);
+                    counter--;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("-RunGame Error: " + e.ToString());
             }
         }
+      
+        //Delegate functions
+        protected virtual void OnBoatAction()
+        {
+            if (updateView != null)
+            {
+                updateView(this, new VesselsEventArgs() { Vessels = vessels });
+            }
+        }
+
+        //Attributes
+        private List<Vessel> _Vessels;
+        private int _ProcessorsNumber;
     }
 }
