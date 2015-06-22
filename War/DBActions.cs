@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace War
 {
@@ -26,14 +27,13 @@ namespace War
         public void connect()
         {
             string connetionString = null;
-            SqlConnection cnn ;
-            connetionString = "Data Source=186.15.24.82; Initial Catalog=WarDB; User ID=WarUser; Password=WarUser123";
-            cnn = new SqlConnection(connetionString);
+            connetionString = "Data Source=186.15.24.82; Initial Catalog=WarDB; User ID=warUser; Password=warUser123";
+            _Connection = new SqlConnection(connetionString);
             try
             {
-                cnn.Open();
+                _Connection.Open();
                 Console.WriteLine("Connection Open ! ");
-                cnn.Close();
+                _Connection.Close();
             }
             catch (Exception ex)
             {
@@ -50,5 +50,27 @@ namespace War
                 }
             }
         }
+        public SqlConnection Connection
+        {
+            get
+            {
+                return _Connection;
+            }
+        }
+        /*
+        public List<Game> getGames()
+        {
+            try
+            {
+                SqlCommand command = new SqlCommand("uspGetGames", _Connection);
+                command.CommandType = CommandType.StoredProcedure
+                command.Connection.Open();
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }*/
     }
 }

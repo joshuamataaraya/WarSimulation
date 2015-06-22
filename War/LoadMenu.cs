@@ -31,6 +31,11 @@ namespace War
             ///Verificar si la clave que esta en _iGameCode es el private key del juego seleccionade en _listGames
             ///Si no esta la clave correcta lanzar un alerta
         }
+        private void loadGames(){
+            foreach(){
+
+            }
+        }
         private GameWindow _GameWindow = new GameWindow();
         private SetUp _SetUp = new SetUp();
     }
