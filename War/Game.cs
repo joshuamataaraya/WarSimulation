@@ -10,10 +10,23 @@ namespace War
     {
         private int _Id;
         private String _Name;
-        public Game()
+        private String _Date;
+        public Game(int pId, String pNombre,String pDate)
         {
-            _Id = 0;
-            _Name = "";
+            _Id = pId;
+            _Name = pNombre;
+            _Date = pDate;
+        }
+        public String Date
+        {
+            get
+            {
+                return _Date;
+            }
+            set
+            {
+                _Date = value;
+            }
         }
         public int id
         {
@@ -36,6 +49,11 @@ namespace War
             {
                 _Name = value;
             }
+        }
+        override
+        public string ToString()
+        {
+            return _Name + " "+ _Date;
         }
     }
 }

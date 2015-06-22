@@ -16,6 +16,7 @@ namespace War
         {
             InitializeComponent();
             _GameWindow = new GameWindow();
+            loadGames();
             _SetUp.updateView += _GameWindow.OnViewUpdated;
         }
 
@@ -32,8 +33,8 @@ namespace War
             ///Si no esta la clave correcta lanzar un alerta
         }
         private void loadGames(){
-            foreach(){
-
+            foreach(Game game in DBActions.Instance.getGames()){
+                _listGames.Items.Add(game);
             }
         }
         private GameWindow _GameWindow = new GameWindow();

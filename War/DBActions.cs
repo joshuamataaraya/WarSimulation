@@ -12,7 +12,7 @@ namespace War
     {
         private static DBActions instance;
         private SqlConnection _Connection;
-        private DBActions() { }
+        private DBActions() { connect(); }
         public static DBActions Instance
         {
             get
@@ -57,20 +57,34 @@ namespace War
                 return _Connection;
             }
         }
-        /*
         public List<Game> getGames()
         {
             try
             {
+                List<Game> games= new List<Game>();
                 SqlCommand command = new SqlCommand("uspGetGames", _Connection);
-                command.CommandType = CommandType.StoredProcedure
+                command.CommandType = CommandType.StoredProcedure;
                 command.Connection.Open();
-                command.ExecuteNonQuery();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Console.WriteLine(String.Format("{0}, {1}",
+                        reader[0], reader[1]));
+                    Game game = new Game((int)reader[0], (String)reader[1],reader[2].ToString());
+                    games.Add(game);
+                }
+                reader.Close();
+                return games;
             }
             catch (Exception ex)
             {
+                if (_Connection.State ==ConnectionState.Open)
+                {
+                    _Connection.Close();
+                }
                 Console.WriteLine(ex.ToString());
+                return null;
             }
-        }*/
+        }
     }
 }
