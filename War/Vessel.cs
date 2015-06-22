@@ -37,6 +37,17 @@ namespace War
                 return _Instructions;
             }
         }
+        public int InstructionCounter
+        {
+            get
+            {
+                return _InstructionCounter;
+            }
+            set
+            {
+                _InstructionCounter = value;
+            }
+        }
         public bool Active
         {
             set

@@ -16,7 +16,11 @@ namespace War
         {
             InitializeComponent();
             _GameWindow = new GameWindow();
+<<<<<<< HEAD
             _SetUp = new SetUp();
+=======
+            loadGames();
+>>>>>>> origin/master
             _SetUp.updateView += _GameWindow.OnViewUpdated;
         }
 
@@ -31,6 +35,13 @@ namespace War
         {
             ///Verificar si la clave que esta en _iGameCode es el private key del juego seleccionade en _listGames
             ///Si no esta la clave correcta lanzar un alerta
+            ///
+            DBActions.Instance.loadGame((Game)_listGames.SelectedItem);
+        }
+        private void loadGames(){
+            foreach(Game game in DBActions.Instance.getGames()){
+                _listGames.Items.Add(game);
+            }
         }
         private GameWindow _GameWindow;
         private SetUp _SetUp;

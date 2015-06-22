@@ -36,11 +36,18 @@ namespace War
             //Console.WriteLine(Environment.ProcessorCount);
             //DBActions.Instance.connect();
             //int clave = RSAEncription.Instance.Encrypt("Primer Juego", 123);
-           
+            //int clave = RSAEncription.Instance.Encrypt("Primer Juego", 123);
+
             Console.WriteLine(Environment.ProcessorCount);
             LoadMenu _Menu = new LoadMenu();
+<<<<<<< HEAD
             Application.Run(_Menu);           
             //int clave = RSAEncription.Instance.Encrypt("Primer Juego", 123);
+=======
+            Application.Run(_Menu);         
+ 
+            
+>>>>>>> origin/master
         }
     }
 }
