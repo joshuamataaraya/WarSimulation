@@ -8,10 +8,6 @@ namespace War
 {
     public class Instruction
     {
-        private float _Grade;
-        private int _Id;
-        private String _Action;
-        private float _Value;
         public float Grade
         {
             get
@@ -56,7 +52,10 @@ namespace War
                 _Value = value;
             }
         }
-
+        private float _Grade;
+        private int _Id;
+        private String _Action;
+        private float _Value;
 
     }
 }

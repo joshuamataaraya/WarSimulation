@@ -28,6 +28,11 @@ namespace War
             createVessels();
             setAndMixVesselsInstructions(ins);
         }
+        public SetUp(List<Vessel> pVessels)
+        {
+            _Vessels = pVessels;
+            _ProcessorsNumber = Environment.ProcessorCount;
+        }
         
         //Properties
         public List<Vessel> vessels
@@ -35,6 +40,10 @@ namespace War
             get
             {
                 return _Vessels;
+            }
+            set
+            {
+                _Vessels = value;
             }
         }
         

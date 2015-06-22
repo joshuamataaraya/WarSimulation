@@ -84,10 +84,77 @@ namespace War
                 return null;
             }
         }
+        public void saveGame(Game pGame,List<Vessel> vessels)
+        {
+            SqlCommand command = new SqlCommand("uspNewGame", _Connection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@pId", pGame.id));
+            command.Parameters.Add(new SqlParameter("@pName", pGame.Name));
+            if (_Connection.State == ConnectionState.Closed)
+            {
+                command.Connection.Open();
+            }
+            command.ExecuteNonQuery();
+
+            int vesselCounter=1;
+            foreach (Vessel vessel in vessels)
+            {
+                SqlCommand command2 = new SqlCommand("uspInsertVessel", _Connection);
+                command2.CommandType = CommandType.StoredProcedure;
+                command2.Parameters.Add(new SqlParameter("@pId", pGame.id+vesselCounter*100));
+                command2.Parameters.Add(new SqlParameter("@pIdGame", pGame.id));
+                command2.Parameters.Add(new SqlParameter("@pPosX", vessel.PosX));
+                command2.Parameters.Add(new SqlParameter("@pPosY", vessel.PosY));
+                command2.Parameters.Add(new SqlParameter("@pInstructionCounter", vessel.CurrentInstruction));
+                command2.Parameters.Add(new SqlParameter("@pGrade", vessel.Grade));
+                command2.Parameters.Add(new SqlParameter("@pLife", vessel.Life));
+                if (_Connection.State == ConnectionState.Closed)
+                {
+                    command2.Connection.Open();
+                }
+                command2.ExecuteNonQuery();
+                foreach (Instruction instruction in vessel.Instructions)
+                {
+                    SqlCommand command3 = new SqlCommand("uspInsertInstruction", _Connection);
+                    command3.CommandType = CommandType.StoredProcedure;
+                    command3.Parameters.Add(new SqlParameter("@pIdShip", pGame.id + vesselCounter * 100));
+                    command3.Parameters.Add(new SqlParameter("@pGrade", instruction.Grade));
+                    if (instruction.Action == "avanzar")
+                    {
+                        command3.Parameters.Add(new SqlParameter("@pAction", 0));
+                    }
+                    else
+                    {
+                        command3.Parameters.Add(new SqlParameter("@pAction", 1));
+                    }
+                    command3.Parameters.Add(new SqlParameter("@pValue", instruction.Value));
+                    command3.Parameters.Add(new SqlParameter("@pInstructionId", instruction.Id));
+                    if (_Connection.State == ConnectionState.Closed)
+                    {
+                        command3.Connection.Open();
+                    }
+                    command3.ExecuteNonQuery();
+                }
+                foreach (Bullet bullet in vessel.Bullets)
+                {
+                    SqlCommand command4 = new SqlCommand("uspInsertBullet", _Connection);
+                    command4.CommandType = CommandType.StoredProcedure;
+                    command4.Parameters.Add(new SqlParameter("@pIdShip", pGame.id + vesselCounter * 100));
+                    command4.Parameters.Add(new SqlParameter("@pPosX", bullet.PosX));
+                    command4.Parameters.Add(new SqlParameter("@pPosY", bullet.PosY));
+                    command4.Parameters.Add(new SqlParameter("@pGrade", bullet.Grade));
+                    command4.Parameters.Add(new SqlParameter("@pValue", bullet.Value));
+                    if (_Connection.State == ConnectionState.Closed)
+                    {
+                        command4.Connection.Open();
+                    }
+                    command4.ExecuteNonQuery();
+                }
+            }
+        }
         public SetUp loadGame(Game pGame)
         {
             try{
-                SetUp setUp = new SetUp();
                 List<Vessel> vessels = new List<Vessel>();
                 SqlCommand command = new SqlCommand("uspGetShips", _Connection);
                 command.CommandType = CommandType.StoredProcedure;
@@ -107,9 +174,52 @@ namespace War
                     vessel.Life = (int)reader["Life"];
                     vessel.Grade = Convert.ToSingle((double)reader["Grade"]); 
                     vessel.CurrentInstruction = (int)reader["instructionCounter"];
-                    vessels.Add(vessel);
+                    vessel.dbId = (int)reader["Id"];
+                    vessels.Add(vessel);              
                 }
                 reader.Close();
+
+                foreach (Vessel vessel in vessels){
+                    SqlCommand command2 = new SqlCommand("uspGetInstructions", _Connection);
+                    command2.CommandType = CommandType.StoredProcedure;
+                    command2.Parameters.Add(new SqlParameter("@pIdShip", vessel.dbId));
+                    SqlDataReader reader2 = command2.ExecuteReader();
+                    List<Instruction> instructions = new List<Instruction>();
+                    while (reader2.Read())
+                    {
+                        Instruction instruction = new Instruction();
+                        Boolean action = (Boolean)reader2["Action"];
+                        if (action == false)
+                        {
+                            instruction.Action = "avanzar";
+                        }else{
+                            instruction.Action = "disparar";
+                        }
+                        instruction.Value = Convert.ToSingle(reader2["Value"]);
+                        instruction.Id = (int)reader2["InstructionId"];
+                        instructions.Add(instruction);
+                        vessel.addInstruction(instruction);
+                    }
+                    reader2.Close();
+
+                    SqlCommand command3 = new SqlCommand("uspGetBullets", _Connection);
+                    command3.CommandType = CommandType.StoredProcedure;
+                    command3.Parameters.Add(new SqlParameter("@pIdShip", vessel.dbId));
+                    SqlDataReader reader3 = command3.ExecuteReader();
+                    List<Bullet> bullets = new List<Bullet>();
+                    while (reader3.Read())
+                    {
+                        Bullet bullet = new Bullet(Convert.ToSingle((double)reader3["Value"]),
+                            Convert.ToSingle(reader3["Grade"]), Convert.ToSingle(reader3["posX"]),
+                            Convert.ToSingle(reader3["posY"]));
+                        bullets.Add(bullet);
+                    }
+                    vessel.Bullets = bullets;
+                    reader3.Close();
+                }
+
+                SetUp setUp = new SetUp(vessels);
+                
                 return setUp;
             }
             catch (Exception ex)

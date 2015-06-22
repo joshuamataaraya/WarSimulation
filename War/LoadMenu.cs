@@ -33,6 +33,28 @@ namespace War
             ///Verificar si la clave que esta en _iGameCode es el private key del juego seleccionade en _listGames
             ///Si no esta la clave correcta lanzar un alerta
             ///
+
+            Game juegoPrueba = new Game("Forth game");
+            juegoPrueba.id = 75;
+
+            Instruction i = new Instruction();
+            i.Id = 851;
+            i.Action = "Avanzar";
+            i.Value = Convert.ToSingle(2.3);
+            i.Grade = Convert.ToSingle(0.5);
+
+            Bullet b = new Bullet(Convert.ToSingle(2.3),Convert.ToSingle(0.5),Convert.ToSingle(100),Convert.ToSingle(200));
+
+            Vessel v = new Vessel();
+            v.addInstruction(i);
+            List<Bullet> vs = new List<Bullet>();
+            vs.Add(b);
+            v.Bullets = vs;
+
+            List<Vessel> vess = new List<Vessel>();
+            vess.Add(v);
+
+            DBActions.Instance.saveGame(juegoPrueba,vess);
             DBActions.Instance.loadGame((Game)_listGames.SelectedItem);
         }
         private void loadGames(){
