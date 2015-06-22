@@ -38,7 +38,7 @@
             this._GamePanel.Name = "_GamePanel";
             this._GamePanel.Size = new System.Drawing.Size(734, 711);
             this._GamePanel.TabIndex = 0;
-            //this._GamePanel.Paint += new System.Windows.Forms.PaintEventHandler(this._GamePanel_Paint);
+            this._GamePanel.Paint += new System.Windows.Forms.PaintEventHandler(this._GamePanel_Paint);
             
             // 
             // GameWindow

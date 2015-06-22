@@ -21,6 +21,7 @@ namespace War
             Action = "STOP";
             Value = 0;
             Active = false;
+            Life = 3;
         }
         
         //Properties
@@ -191,7 +192,7 @@ namespace War
             {
                 Console.WriteLine("/MixError: " + e.ToString());
             }
-            Console.WriteLine("N instrucciones: " + Instructions.Count);
+            //Console.WriteLine("N instrucciones: " + Instructions.Count);
         }
     
         //Game functions
