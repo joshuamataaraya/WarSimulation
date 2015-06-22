@@ -140,6 +140,17 @@ namespace War
                 return _CurrentAction;
             }
         }
+        public RectangleF Area
+        {
+            set
+            {
+                _Area = value;
+            }
+            get
+            {
+                return _Area;
+            }
+        }
 
         //Vessel preparation
         public void addInstruction(Instruction pInstruction)
@@ -191,6 +202,61 @@ namespace War
         }
     
         //Game functions
+        private void shoot(float pValor, float pGrado)
+        {
+            Bullet bullet = new Bullet(pValor, pGrado, this.PosX, this.PosY);
+            Bullets.Add(bullet);
+            UpdateBullets();
+        }
+        private void move()
+        {
+            float nPosX = 0;
+            float nPosY = 0;
+            //Console.WriteLine("moving from: " + PosX + "x" + PosY);
+            if (Grade >= 0 && Grade < 180)
+            {
+                nPosX = PosX + (float)Math.Cos(Grade * Math.PI / 180);
+                nPosY = PosY + (float)Math.Sin(Grade * Math.PI / 180);
+            }
+            else
+            {
+                nPosX = PosX - (float)Math.Cos(Grade * Math.PI / 180);
+                nPosY = PosY - (float)Math.Sin(Grade * Math.PI / 180);
+            }
+            if (nPosX > 0 && nPosX <= 610 && nPosY > 0 && nPosY <= 610)
+            {
+                PosX = nPosX;
+                PosY = nPosY;
+                //Console.WriteLine("moving to: " + PosX + "x" + PosY);
+                Value -= 0.4f;
+            }
+            else
+            {
+                Value = 0;
+            }
+            UpdateBullets();
+            if (Value <= 0)
+            {
+                Active = false;
+            }
+        }
+        private void UpdateBullets()
+        {
+            int currentBullet = 0;
+            while (currentBullet < Bullets.Count)
+            {
+                if (Bullets[currentBullet].Value > 0)
+                {
+                    Bullets[currentBullet].move();
+                }
+                else
+                {
+                    Bullets.RemoveAt(currentBullet);
+                }
+                currentBullet++;
+            }
+        }
+        
         public void storeNextInstruction()
         {
             if(Active){
@@ -266,61 +332,8 @@ namespace War
                 return false;
             }
         }
-        //Pendiente
-        private void shoot(float pValor, float pGrado)
-        {
-            Bullet bullet = new Bullet(pValor, pGrado, this.PosX, this.PosY);
-            Bullets.Add(bullet);
-            UpdateBullets();
-        }
-        public void move()
-        {
-            float nPosX = 0;
-            float nPosY = 0;
-            //Console.WriteLine("moving from: " + PosX + "x" + PosY);
-            if (Grade >= 0 && Grade < 180)
-            {
-                nPosX = PosX + (float)Math.Cos(Grade * Math.PI / 180);
-                nPosY = PosY + (float)Math.Sin(Grade * Math.PI / 180);
-            }
-            else
-            {
-                nPosX = PosX - (float)Math.Cos(Grade * Math.PI / 180);
-                nPosY = PosY - (float)Math.Sin(Grade * Math.PI / 180);
-            }
-            if(nPosX>0 && nPosX<=610 && nPosY>0 && nPosY<=610){
-                PosX = nPosX;
-                PosY = nPosY;
-                //Console.WriteLine("moving to: " + PosX + "x" + PosY);
-                Value -= 0.4f;
-            }
-            else
-            {
-                Value = 0;
-            }
-            UpdateBullets();
-            if (Value <= 0)
-            {
-                Active = false;
-            }
-        }
-        public void UpdateBullets()
-        {
-            int currentBullet = 0;
-            while (currentBullet < Bullets.Count)
-            {
-                if(Bullets[currentBullet].Value > 0)
-                {
-                    Bullets[currentBullet].move();
-                }
-                else
-                {
-                    Bullets.RemoveAt(currentBullet);
-                }
-                currentBullet++;
-            }
-        }        
-        
+       
+
         //Atributes
         private List<Instruction> _Instructions;
         private List<Bullet> _Bullets;
@@ -334,5 +347,6 @@ namespace War
         private float _CurrentValue;
         private String _CurrentAction;
         private static Random rdn = new Random();
+        private RectangleF _Area;
     }
 }

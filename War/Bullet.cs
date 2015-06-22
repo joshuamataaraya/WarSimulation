@@ -15,6 +15,16 @@ namespace War
             Value = pValue;
             PosX = pPosX;
             PosY = pPosY;
+            if (Grade >= 0 && Grade < 180)
+            {
+                PosX += ((float)Math.Cos(Grade * Math.PI / 180) * 4);
+                PosY += ((float)Math.Sin(Grade * Math.PI / 180) * 4);
+            }
+            else
+            {
+                PosX -= ((float)Math.Cos(Grade * Math.PI / 180) * 4);
+                PosY -= ((float)Math.Sin(Grade * Math.PI / 180) * 4);
+            }
         }
 
         //Properties

@@ -27,6 +27,7 @@ namespace War
             _Vessels = new List<Vessel>();
             createVessels();
             setAndMixVesselsInstructions(ins);
+            Playable = true;
         }
         
         //Properties
@@ -37,7 +38,18 @@ namespace War
                 return _Vessels;
             }
         }
-        
+        public bool Playable
+        {
+            set
+            {
+                _Playable = value;
+            }
+            get
+            {
+                return _Playable;
+            }
+        }
+
         //Functions
         private void createVessels()
         {
@@ -120,10 +132,76 @@ namespace War
                     proc.ProcessorAffinity = (IntPtr)bit;
                 }
             }
-            while(currentVessel.canContinue()){
+            while (currentVessel.canContinue())
+            {
                 currentVessel.storeNextInstruction();
+                checkCollisions();
                 OnBoatAction();
                 Thread.Sleep(400);
+                if(!Playable){
+                    break;
+                }
+            }
+        }
+        private void checkCollisions()
+        {
+            foreach (Vessel vessel in vessels)
+            {
+                vessel.Area = new System.Drawing.RectangleF(vessel.PosX, vessel.PosY, vessel.PosX+92, vessel.PosY+92);
+            }
+            int currentVessel = 0;
+            while(currentVessel<vessels.Count){
+                int currentBullet = 0;
+                Vessel vessel = vessels[currentVessel];
+                while (currentBullet < vessel.Bullets.Count)
+                {
+                    int checkVessel = 0;
+                    Bullet bullet = vessel.Bullets[currentBullet];
+                    System.Drawing.Point point = new System.Drawing.Point((int)bullet.PosX, (int)bullet.PosY);
+                    while(checkVessel<vessels.Count){
+                        Console.WriteLine(checkVessel + " " + currentVessel);
+                        if (checkVessel != currentVessel)
+                        {                            
+                            if (vessels[checkVessel].Area.Contains(point))
+                            {
+                                vessels[checkVessel].Life--;
+                                vessels[currentVessel].Bullets.RemoveAt(currentBullet);
+                                if (vessels[checkVessel].Life < 1)
+                                {
+                                    vessels[checkVessel].CurrentInstruction += 200000;
+                                    vessels[checkVessel].Bullets.Clear();
+                                    if (gameFinished())
+                                    {
+                                        Playable = false;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        checkVessel++;
+                    }
+                    currentBullet++;
+                }
+                currentVessel++;
+            }
+        }
+        private bool gameFinished()
+        {
+            int counter = 0;
+            foreach (Vessel vessel in vessels)
+            {
+                if (vessel.canContinue())
+                {
+                    counter++;
+                }
+            }
+            if (counter == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
         public void runGame()
@@ -160,5 +238,6 @@ namespace War
         //Attributes
         private List<Vessel> _Vessels;
         private int _ProcessorsNumber;
+        private bool _Playable;
     }
 }

@@ -69,7 +69,6 @@ namespace War
             Image image;
             Graphics graphics = _GamePanel.CreateGraphics();
             Pen pen = new Pen(System.Drawing.Color.Red, 2);
-
             //All vessels /*
             int currentVessel = 0;
             while (currentVessel < _Vessels.Count)
