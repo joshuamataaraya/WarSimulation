@@ -31,6 +31,8 @@ namespace War
         {
             ///Verificar si la clave que esta en _iGameCode es el private key del juego seleccionade en _listGames
             ///Si no esta la clave correcta lanzar un alerta
+            ///
+            DBActions.Instance.loadGame((Game)_listGames.SelectedItem);
         }
         private void loadGames(){
             foreach(Game game in DBActions.Instance.getGames()){

@@ -68,13 +68,48 @@ namespace War
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Console.WriteLine(String.Format("{0}, {1}",
-                        reader[0], reader[1]));
                     Game game = new Game((int)reader[0], (String)reader[1],reader[2].ToString());
                     games.Add(game);
                 }
                 reader.Close();
                 return games;
+            }
+            catch (Exception ex)
+            {
+                if (_Connection.State ==ConnectionState.Open)
+                {
+                    _Connection.Close();
+                }
+                Console.WriteLine(ex.ToString());
+                return null;
+            }
+        }
+        public SetUp loadGame(Game pGame)
+        {
+            try{
+                SetUp setUp = new SetUp();
+                List<Vessel> vessels = new List<Vessel>();
+                SqlCommand command = new SqlCommand("uspGetShips", _Connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("@pIdGame",pGame.id));
+                if (_Connection.State == ConnectionState.Closed)
+                {
+                    command.Connection.Open();
+                }
+                
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Vessel vessel = new Vessel();
+                    vessel.PosX = (float)reader[3];
+                    vessel.PosY =(float) reader[4];
+                    vessel.Life = (int)reader["Life"];
+                    vessel.Grade = (float)reader["Grade"];
+                    vessel.InstructionCounter = (int)reader["instructionCounter"];
+                    vessels.Add(vessel);
+                }
+                reader.Close();
+                return setUp;
             }
             catch (Exception ex)
             {
