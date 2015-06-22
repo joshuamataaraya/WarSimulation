@@ -97,14 +97,15 @@ namespace War
                     command.Connection.Open();
                 }
                 
-                SqlDataReader reader = command.ExecuteReader();
+                SqlDataReader reader = command.ExecuteReader();                
                 while (reader.Read())
                 {
                     Vessel vessel = new Vessel();
-                    vessel.PosX = (float)reader[3];
-                    vessel.PosY =(float) reader[4];
+                    Console.WriteLine(reader[2]);
+                    vessel.PosX = Convert.ToSingle((double)reader[2]);
+                    vessel.PosY =Convert.ToSingle((double)reader[3]);
                     vessel.Life = (int)reader["Life"];
-                    vessel.Grade = (float)reader["Grade"];
+                    vessel.Grade = Convert.ToSingle((double)reader["Grade"]);
                     vessel.InstructionCounter = (int)reader["instructionCounter"];
                     vessels.Add(vessel);
                 }
