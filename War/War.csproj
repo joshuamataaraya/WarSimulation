@@ -44,16 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bullet.cs" />
     <Compile Include="DBActions.cs" />
     <Compile Include="DistributedThread.cs" />
     <Compile Include="FileReader.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="GameWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GameWindow.Designer.cs">
       <DependentUpon>GameWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Game.cs" />
     <Compile Include="Instruction.cs" />
     <Compile Include="LoadMenu.cs">
       <SubType>Form</SubType>
@@ -67,6 +68,7 @@
     <Compile Include="RSAEncription.cs" />
     <Compile Include="Vessel.cs" />
     <Compile Include="SetUp.cs" />
+    <Compile Include="VesselsEventArgs.cs" />
     <EmbeddedResource Include="GameWindow.resx">
       <DependentUpon>GameWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -110,9 +112,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\barco1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -15,7 +15,7 @@ namespace War
             _PosX = rdn.Next(0, 610);
             _PosY = rdn.Next(0, 610);
             Instructions = new List<Instruction>();
-            Bullets = new List<Bullet>();
+            _Bullets = new List<Bullet>();
             _Id = rdn.Next(100, 999);
             Grade = 0;
             Action = "STOP";
@@ -34,17 +34,6 @@ namespace War
             get
             {
                 return _Instructions;
-            }
-        }
-        public List<Bullet> Bullets
-        {
-            set
-            {
-                _Bullets = value;
-            }
-            get
-            {
-                return _Bullets;
             }
         }
         public bool Active
