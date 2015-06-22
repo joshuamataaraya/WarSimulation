@@ -28,13 +28,6 @@ namespace War
             createVessels();
             setAndMixVesselsInstructions(ins);
         }
-        public SetUp(List<Instruction> instructions)
-        {
-            _ProcessorsNumber = Environment.ProcessorCount;
-            _Vessels = new List<Vessel>();
-            createVessels();
-            setAndMixVesselsInstructions(instructions);
-        }
         
         //Properties
         public List<Vessel> vessels
@@ -69,29 +62,6 @@ namespace War
                         bit = bit << index;
                     }
                     proc.ProcessorAffinity = (IntPtr)bit;
-                    //Console.WriteLine(bit);
-                    /**
-                    if (index == 1)
-                    {
-                        proc.ProcessorAffinity = (IntPtr)1;
-                        Console.WriteLine("Here");
-                    }
-                    else if (index == 2)
-                    {
-                        proc.ProcessorAffinity = (IntPtr)2;
-                        Console.WriteLine("Here2");
-                    }
-                    else if (index == 3)
-                    {
-                        proc.ProcessorAffinity = (IntPtr)4;
-                        Console.WriteLine("Here3");
-                    }
-                    else if (index == 4)
-                    {
-                        proc.ProcessorAffinity = (IntPtr)8;
-                        Console.WriteLine("Here4");
-                    }*/
-                    
                 }                
             }
             foreach (Instruction instruction in instructions)
@@ -102,6 +72,7 @@ namespace War
                 }
             }
             currentVessel.mixInstructions();
+            OnBoatAction();
         }
         private void setAndMixVesselsInstructions(List<Instruction> instructions)
         {
@@ -147,26 +118,28 @@ namespace War
                         bit = bit << index;
                     }
                     proc.ProcessorAffinity = (IntPtr)bit;
-                    Console.WriteLine(bit);
                 }
             }
-            while(currentVessel.Instructions.Count>index){
+            while(currentVessel.canContinue()){
                 currentVessel.storeNextInstruction();
-                Thread.Sleep(1000);
                 OnBoatAction();
+                Thread.Sleep(400);
             }
         }
         public void runGame()
         {
             try
             {
+                //All vessels
                 int counter = _Vessels.Count;
-                foreach (Vessel vess in _Vessels)
+                int vesselCounter = 0;
+                while(vesselCounter<_Vessels.Count)
                 {
-                    Thread thread = new Thread(delegate() { game(vess, counter); });
+                    Thread thread = new Thread(delegate() { game(_Vessels[vesselCounter], counter); });
                     thread.Start();
-                    Thread.Sleep(1000);
+                    Thread.Sleep(100);
                     counter--;
+                    vesselCounter++;
                 }
             }
             catch (Exception e)
@@ -180,7 +153,7 @@ namespace War
         {
             if (updateView != null)
             {
-                updateView(this, new VesselsEventArgs() { Vessels = vessels });
+                updateView(this, new VesselsEventArgs() { Vessels = _Vessels });
             }
         }
 

@@ -9,11 +9,12 @@ namespace War
     public class Bullet
     {
         //Constructor
-        public Bullet(float pPosX, float pPosY, float pGrade, float pValue)
+        public Bullet(float pValue, float pGrade, float pPosX, float pPosY)
         {
-            Grade = (180 * pGrade) - 90;
+            Grade = pGrade;
             Value = pValue;
-            setPos(pPosX, pPosY);
+            PosX = pPosX;
+            PosY = pPosY;
         }
 
         //Properties
@@ -65,17 +66,9 @@ namespace War
         //Function
         public void move()
         {
-            PosX += 2 * (float)Math.Cos(Grade);
-            PosY += 2 * (float)Math.Sin(Grade);
+            PosX += (float)Math.Sin(Grade)*4;
+            PosY -= (float)Math.Cos(Grade)*4;
             Value -= 0.4f;
-        }
-        private void setPos(float pPosX, float pPosY){
-            float posX = pPosX;
-            float posY = pPosY;
-            //funcion que calcula el centro de arriba del buque
-
-            PosX = posX;
-            PosY = posY;
         }
 
         private float _PosX;

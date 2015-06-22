@@ -16,6 +16,7 @@ namespace War
         {
             InitializeComponent();
             _GameWindow = new GameWindow();
+            _SetUp = new SetUp();
             loadGames();
             _SetUp.updateView += _GameWindow.OnViewUpdated;
         }
@@ -39,7 +40,7 @@ namespace War
                 _listGames.Items.Add(game);
             }
         }
-        private GameWindow _GameWindow = new GameWindow();
-        private SetUp _SetUp = new SetUp();
+        private GameWindow _GameWindow;
+        private SetUp _SetUp;
     }
 }
