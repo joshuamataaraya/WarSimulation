@@ -34,13 +34,13 @@ namespace War
             //LoadMenu _Menu = new LoadMenu();
             //Application.Run(_Menu);
             //Console.WriteLine(Environment.ProcessorCount);
-            DBActions.Instance.connect();
+            //DBActions.Instance.connect();
             //int clave = RSAEncription.Instance.Encrypt("Primer Juego", 123);
            
             Console.WriteLine(Environment.ProcessorCount);
             LoadMenu _Menu = new LoadMenu();
             Application.Run(_Menu);           
-            int clave = RSAEncription.Instance.Encrypt("Primer Juego", 123);
+            //int clave = RSAEncription.Instance.Encrypt("Primer Juego", 123);
         }
     }
 }

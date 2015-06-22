@@ -16,6 +16,7 @@ namespace War
         {
             InitializeComponent();
             _GameWindow = new GameWindow();
+            _SetUp = new SetUp();
             _SetUp.updateView += _GameWindow.OnViewUpdated;
         }
 
@@ -31,7 +32,7 @@ namespace War
             ///Verificar si la clave que esta en _iGameCode es el private key del juego seleccionade en _listGames
             ///Si no esta la clave correcta lanzar un alerta
         }
-        private GameWindow _GameWindow = new GameWindow();
-        private SetUp _SetUp = new SetUp();
+        private GameWindow _GameWindow;
+        private SetUp _SetUp;
     }
 }

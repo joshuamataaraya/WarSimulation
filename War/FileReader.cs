@@ -71,8 +71,8 @@ namespace War
                     {
                         Instruction instruction = new Instruction();
 
-                        gradeTemp = gradeTemp.Replace(".", ",");
-                        valueTemp = valueTemp.Replace(".", ",");
+                        //gradeTemp = gradeTemp.Replace(".", ",");
+                        //valueTemp = valueTemp.Replace(".", ",");
 
                         instruction.Grade = float.Parse(gradeTemp);
                         instruction.Id = Convert.ToInt32(idTemp);

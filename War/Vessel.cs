@@ -12,16 +12,17 @@ namespace War
         //Constructor
         public Vessel()
         {
-            _PosX = rdn.Next(0, 610);
-            _PosY = rdn.Next(0, 610);
+            PosX = rdn.Next(0, 610);
+            PosY = rdn.Next(0, 610);
             Instructions = new List<Instruction>();
             _Bullets = new List<Bullet>();
             _Id = rdn.Next(100, 999);
-            Grade = 0;
+            Grade = 90;
             Action = "STOP";
             Value = 0;
             Active = false;
             Life = 3;
+            _CurrentInstruction = 0;
         }
         
         //Properties
@@ -128,19 +129,6 @@ namespace War
             }
         }
 
-        //Setters-getters
-        public float getAngle()
-        {
-            if (Action != "STOP")
-            {
-                return (180 * Grade) - 90;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-        
         //Vessel preparation
         public void addInstruction(Instruction pInstruction)
         {
@@ -164,8 +152,14 @@ namespace War
                         gradeB = _Instructions[instructionBCounter].Grade;
                         valueA = _Instructions[instructionACounter].Value;
                         valueB = _Instructions[instructionBCounter].Value;
-
-                        _Instructions[instructionACounter].Grade = (gradeA + gradeB) % gradeA;
+                        if(gradeA != 0)
+                        {
+                            _Instructions[instructionACounter].Grade = (gradeA + gradeB) % gradeA;
+                        }
+                        else
+                        {
+                            _Instructions[instructionACounter].Grade = (gradeA + gradeB);
+                        }
                         _Instructions[instructionACounter].Value = (valueA + valueB) / 2;
 
                         _Instructions.RemoveAt(instructionBCounter);
@@ -185,25 +179,6 @@ namespace War
         }
     
         //Game functions
-        public Instruction getNextInstruction()
-        {
-            try
-            {
-                //if there are not instructions it returns null
-                Instruction instruction = null;
-                if (_InstructionCounter < _Instructions.Count)
-                {
-                    instruction = _Instructions[_InstructionCounter];
-                    _InstructionCounter++;
-                }
-                return instruction;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-                return null;
-            }
-        }
         public void storeNextInstruction()
         {
             if(Active){
@@ -211,21 +186,51 @@ namespace War
             }else{
                 try
                 {
-                    if (_InstructionCounter < Instructions.Count)
+                    if (_CurrentInstruction < Instructions.Count-1)
                     {
-                        Action = Instructions[_InstructionCounter].Action;
-                        if(Action=="avanzar"){
+                        Action = Instructions[_CurrentInstruction].Action;
+                        if(Action=="avanzar")
+                        {
                             Active = true;
-                            Grade = Instructions[_InstructionCounter].Grade;
-                            Value = Instructions[_InstructionCounter].Value;
-                            _InstructionCounter++;
+                            float temp = 180 * Instructions[_CurrentInstruction].Grade;
+                            while (temp > 180)
+                            {
+                                temp = temp - 180;
+                            }
+                            temp = temp - 90;
+                            Grade = Grade + temp;
+                            while (Grade > 360)
+                            {
+                                Grade -= 360;
+                            }
+                            Value = Instructions[_CurrentInstruction].Value;
+                            _CurrentInstruction++;
                             move();
                         }
                         else
                         {
-                            shoot(Instructions[_InstructionCounter].Value, Instructions[_InstructionCounter].Grade);
-                            _InstructionCounter++;
+                            float temp = 180 * Instructions[_CurrentInstruction].Grade;
+                            while (temp > 180)
+                            {
+                                temp = temp - 180;
+                            }
+                            temp = temp - 90;
+                            Grade = Grade + temp;
+                            while (Grade > 360)
+                            {
+                                Grade -= 360;
+                            }
+                            shoot(Instructions[_CurrentInstruction].Value, Grade);
+                            _CurrentInstruction++;
+                            Active = false;
                         }
+                    }
+                    else
+                    {
+                        Active = false;
+                        Action = "STOP";
+                        Grade = 90;
+                        Value = 0;
                     }
                 }
                 catch (Exception e)
@@ -233,39 +238,65 @@ namespace War
                     Console.WriteLine(e.ToString());
                     Action = "STOP";
                     Active = false;
+                    Grade = 90;
+                    Value = 0;
                 }
             }         
+        }
+        public Boolean canContinue()
+        {
+            if (_CurrentInstruction < Instructions.Count - 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         //Pendiente
         private void shoot(float pValor, float pGrado)
         {
-            Bullet bullet = new Bullet(pValor, pGrado, _PosX, _PosY);
+            Console.WriteLine("shooting");
+            Bullet bullet = new Bullet(pValor, pGrado, this.PosX, this.PosY);
             Bullets.Add(bullet);
             UpdateBullets();
         }
         public void move()
         {
-            float grade = (180 * _CurrentGrade) - 90;
-            PosX += 1 * (float)Math.Cos(grade);
-            PosY += 1 * (float)Math.Sin(grade);
-            Value -= 0.4f;
+            //Console.WriteLine("moving from: " + PosX + "x" + PosY);
+            float nPosX = PosX + (float)Math.Sin(Grade);
+            float nPosY = PosY - (float)Math.Cos(Grade);
+            if(nPosX>0 && nPosX<=610 && nPosY>0 && nPosY<=610){
+                PosX = nPosX;
+                PosY = nPosY;
+                //Console.WriteLine("moving to: " + PosX + "x" + PosY);
+                Value -= 0.4f;
+            }
+            else
+            {
+                Value = 0;
+            }
             UpdateBullets();
-            if (Value < 0)
+            if (Value <= 0)
             {
                 Active = false;
             }
         }
         public void UpdateBullets()
         {
-            foreach(Bullet bullet in Bullets){
-                if (bullet.Value > 0)
+            int currentBullet = 0;
+            while (currentBullet < Bullets.Count)
+            {
+                if(Bullets[currentBullet].Value > 0)
                 {
-                    bullet.move();
+                    Bullets[currentBullet].move();
                 }
                 else
                 {
-                    Bullets.Remove(bullet);
+                    Bullets.RemoveAt(currentBullet);
                 }
+                currentBullet++;
             }
         }        
         
@@ -275,7 +306,7 @@ namespace War
         private bool _Active;
         private int _Id;
         private int _Life;
-        private int _InstructionCounter;
+        private int _CurrentInstruction;
         private float _PosX;
         private float _PosY;
         private float _CurrentGrade;

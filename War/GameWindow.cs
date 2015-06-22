@@ -19,7 +19,17 @@ namespace War
             InitializeComponent();
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Game_FormClosed);
         }
-        
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams handleParam = base.CreateParams;
+                handleParam.ExStyle |= 0x02000000;
+                return handleParam;
+            }
+        }
+
         //Functions
 
         //Resource from stackoverflow to rotate an image
@@ -46,65 +56,28 @@ namespace War
             return bmp;
         }
 
-
         //Event Handlers
         public void OnViewUpdated(object source, VesselsEventArgs e)
         {
-            /*M1
-            //Pintar dependiendo de la lista de barcos
-            Console.WriteLine("update...");
             _Vessels = e.Vessels;
             vesselCounter = _Vessels.Count;
             _GamePanel.Invalidate();
-            Graphics graphics = _GamePanel.CreateGraphics();
-            Image image;
-            for (; vesselCounter > 0; vesselCounter--)
-            {
-                
-                if (_Vessels[vesselCounter - 1].Life > 0)
-                {
-                    switch (_Vessels[vesselCounter - 1].Life)
-                    {
-                        case 2:
-                            image = new Bitmap(global::War.Properties.Resources.barco2);
-                            break;
-                        case 1:
-                            image = new Bitmap(global::War.Properties.Resources.barco1);
-                            break;
-                        default:
-                            image = new Bitmap(global::War.Properties.Resources.barco3);
-                            break;
-                    } 
-                    Console.WriteLine("barco: " + vesselCounter + " Angle: "+_Vessels[vesselCounter - 1].getAngle());
-                    graphics.RotateTransform(_Vessels[vesselCounter - 1].getAngle());
-                    graphics.DrawImage(image, _Vessels[vesselCounter - 1].PosX, _Vessels[vesselCounter - 1].PosY);
-                }
-            }
-            */
 
-//            /*M2
-            //this._GamePanel.Controls.Clear();
-            _Vessels = e.Vessels;
-            vesselCounter = _Vessels.Count;
-            _GamePanel.Controls.Clear();
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this._GamePanel_Paint);
-//                */
-        }
-        private void Game_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Application.Exit();
         }
         private void _GamePanel_Paint(object sender, PaintEventArgs e)
         {
-            Console.WriteLine("pintar!");
-            graphics = _GamePanel.CreateGraphics();
             Image image;
-            for (; vesselCounter > 0; vesselCounter--)
+            Graphics graphics = _GamePanel.CreateGraphics();
+            Pen pen = new Pen(System.Drawing.Color.Red, 2);
+
+            //All vessels /*
+            int currentVessel = 0;
+            while (currentVessel < _Vessels.Count)
             {
-                Console.Write(_Vessels[vesselCounter - 1].Life);
-                if (_Vessels[vesselCounter - 1].Life > 0)
+                Vessel vessel = _Vessels[currentVessel];
+                if (vessel.Life > 0)
                 {
-                    switch (_Vessels[vesselCounter - 1].Life)
+                    switch (vessel.Life)
                     {
                         case 2:
                             image = new Bitmap(global::War.Properties.Resources.barco2);
@@ -116,13 +89,36 @@ namespace War
                             image = new Bitmap(global::War.Properties.Resources.barco3);
                             break;
                     }
-                    graphics.RotateTransform(_Vessels[vesselCounter - 1].getAngle());
-                    graphics.DrawImage(image, _Vessels[vesselCounter - 1].PosX, _Vessels[vesselCounter - 1].PosY);
+                    //Console.WriteLine("Barco: " + currentVessel + " Action: " + vessel.Action + " Grado: " + vessel.Grade + " Valor: " + vessel.Value);
+                    image = RotateImage(image, vessel.Grade);
+                    graphics.DrawImage(image, vessel.PosX, vessel.PosY);
+                    int currentBullet = 0;
+                    /*while (currentBullet < vessel.Bullets.Count)
+                    {
+                        Bullet bullet = vessel.Bullets[currentBullet];
+                        float tempX = bullet.PosX;
+                        float tempY = bullet.PosY;
+                        for (int xCounter = 0; xCounter < image.Width / 2; xCounter++)
+                        {
+                            tempX += (float)Math.Cos(vessel.Grade);
+                        }
+                        for (int yCounter = 0; yCounter < image.Height / 2; yCounter++)
+                        {
+                            tempY -= (float)Math.Sin(vessel.Grade);
+                        }
+                        graphics.DrawRectangle(pen, tempX, tempY, 2, 2);
+                        currentBullet++;
+                    }*/
                 }
+                currentVessel++;
             }
         }
+        private void Game_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
+
         List<Vessel> _Vessels;
         int vesselCounter;
-        Graphics graphics;
     }
 }
